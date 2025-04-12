@@ -31,7 +31,7 @@ public class ProfessorController {
     @GetMapping("/novo")
     public String novoProfessorForm(Model model) {
         model.addAttribute("professor", new Professor());
-        return "professor/form";
+        return "professores/form";
     }
 
     //editar professor (Edit)
@@ -43,7 +43,7 @@ public class ProfessorController {
                         RuntimeException("professor não encontrado com o ID" + id));
 
         model.addAttribute("professor", professor);
-        return "professor/form";
+        return "professores/form";
     }
 
     //atualizar professor
