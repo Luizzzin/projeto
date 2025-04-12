@@ -37,8 +37,11 @@ public class AlunoController {
     //editar aluno (Edit)
     @GetMapping("/editar/{id}")
     public String editarAlunoForm(@PathVariable Long id, Model model){
+
         Aluno aluno = alunoService.buscarPorId(id)
-            .orElseThrow(() ->new RuntimeException("Aluno não encontrado com o ID" + id));
+            .orElseThrow(() ->new
+                    RuntimeException("Aluno não encontrado com o ID" + id));
+
     model.addAttribute("aluno",aluno);
         return "aluno/form";
     }
