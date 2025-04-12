@@ -1,6 +1,5 @@
 package com.escola.projeto.service;
 
-import com.escola.projeto.model.Aluno;
 import com.escola.projeto.model.Professor;
 import com.escola.projeto.repository.ProfessorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,25 +15,34 @@ public class ProfessorService {
     private ProfessorRepository professorRepository;
 
     //inserir
-    public Professor salvarProfessor(Professor professor){
+    public Professor salvarProfessor(Professor professor) {
         return professorRepository.save(professor);
     }
-    public List<Professor> listarTodos(){
+
+    public List<Professor> listarTodos() {
         return professorRepository.findAll();
     }
+
     //buscar por ID
-    public Optional<Professor> buscarPorId(Long id){
+    public Optional<Professor> buscarPorId(Long id) {
         return professorRepository.findById(id);
     }
 
-    public Professor atualizarProfessor(Long id, Professor professorAtualizado){
+    //att
+    public Professor atualizarProfessor(Long id, Professor professorAtualizado) {
         return professorRepository.findById(id)
-                .map(aluno -> {
-                    aluno.setNomeAluno(alunoAtualizado.getNomeAluno());
-                    aluno.setIdadeAluno(alunoAtualizado.getIdadeAluno());
-                    aluno.setMatriculaAluno(alunoAtualizado.getMatriculaAluno());
-                    return alunoRepository.save(aluno);
+                .map(professor -> {
+                    professor.setNomeProfessor(professor.getNomeProfessor());
+                    professor.setId(professor.getId());
+                    professor.setDisciplinaProfessor(professor.getDisciplinaProfessor());
+                    return professorRepository.save(professor);
                 })
-                .orElseThrow(() ->new RuntimeException("Aluno não encontrado com o ID" + id));
+                .orElseThrow(() -> new RuntimeException("professor não encontrado com o ID" + id));
+    }
+
+    //deletar
+    public void deletarProfessor(Long id){
+        professorRepository.deleteById(id);
+
     }
 }
