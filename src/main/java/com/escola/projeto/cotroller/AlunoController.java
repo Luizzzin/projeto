@@ -21,7 +21,7 @@ public class AlunoController {
 
     //Listar Todos(READ)
     @GetMapping
-    public String listarAlunos(Model model){
+    public String listarAlunos(Model model) {
         List<Aluno> alunos = alunoService.listarTodos();
         model.addAttribute("alunos", alunos);
         return ("alunos/lista");
@@ -29,23 +29,42 @@ public class AlunoController {
 
     //criando formulario para novo aluno(Create)
     @GetMapping("/novo")
-    public String salvarAlunos(@ModelAttribute Aluno aluno){
-        alunoService.salvarAluno(aluno);
-        return "redirect:/alunos";
+    public String novoAlunoForm(Model model) {
+        model.addAttribute("aluno", new Aluno());
+        return "alunos/form";
     }
 
     //editar aluno (Edit)
     @GetMapping("/editar/{id}")
-    public String editarAlunoForm(@PathVariable Long id, Model model){
+    public String editarAlunoForm(@PathVariable Long id, Model model) {
 
         Aluno aluno = alunoService.buscarPorId(id)
-            .orElseThrow(() ->new
-                    RuntimeException("Aluno não encontrado com o ID" + id));
+                .orElseThrow(() -> new
+                        RuntimeException("Aluno não encontrado com o ID" + id));
 
-    model.addAttribute("aluno",aluno);
+        model.addAttribute("aluno", aluno);
         return "aluno/form";
     }
 
+    //atualizar aluno
+    @GetMapping("/atualizar/{id}")
+    public String atualizarAlunos(@PathVariable Long id, @ModelAttribute Aluno aluno) {
+        alunoService.atualizarAluno(id, aluno);
+        return "redirect:/alunos";
+    }
+    //salvar
+    @GetMapping("/salvar")
+    public String salvarAluno(@ModelAttribute Aluno aluno) {
+        alunoService.salvarAluno(aluno);
+        return "redirect:/alunos";
+    }
+
+    //deletar
+    @GetMapping("/deletar/{id}")
+    public String atualizarAlunos(@PathVariable Long id) {
+        alunoService.deletarPorId(id);
+        return "redirect:/alunos";
+    }
 
 
 }
